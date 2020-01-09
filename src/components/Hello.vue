@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <form>
-      <input type="text" name="username" v-model="userName"> <br>
-      <input type="text" name="age" v-model="age"> <br>
-      <a href="javascript:;" @click="addUser">上传</a>
-    </form>
+			<h1>{{ msg }}</h1>
+			<form>
+				<input type="text" name="username" v-model="userName" placeholder="username"> <br>
+				<input type="text" name="password" v-model="password" placeholder="password"> <br>
+				<a href="javascript:;" @click="addUser">上传</a>
+			</form>
   </div>
 </template>
 <script>
@@ -16,19 +16,22 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       userName: '',
       age: ''
-    }
+		}		
   },
   methods: {
-    addUser() {
+    async addUser() {
       var name = this.userName;
-      var age = this.age;
+      var password = this.password;
       this.$http.post('/api/user/addUser', {
         username: name,
-        age: age
+        password: password
       },{}).then((response) => {
         console.log(response);
       })
-    }
+    },
+		cancle() {
+		  this.visible = false;	    
+		}
   }
 }
 </script>
@@ -48,5 +51,13 @@ li {
 }
 a {
   color: #42b983;
+}
+label{
+	display:inline-block;
+	width:150px;
+	height:75px;
+	background-repeat:no-repeat;
+	background-size: contain;
+	margin-right:10px;
 }
 </style>
