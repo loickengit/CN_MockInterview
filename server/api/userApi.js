@@ -37,7 +37,7 @@ router.post('/authUser', (req, res) => {
 	// 连接数据库
 	var conn = mysql.createConnection(models.mysql);
 	conn.connect();
-	var jsonWrite = function (res, ret) {
+	var jsonWrite = function (res, ret,data) {
 		if (typeof ret === 'undefined') {
 			res.json({
 				code: '1',
@@ -59,7 +59,9 @@ router.post('/authUser', (req, res) => {
 			//jsonWrite(res, result);
 			if (result.length > 0) {
 				if (result[0].password == params.password)
-					jsonWrite(res, 'correct');
+					// jsonWrite(res, result);
+					res.json({code:"correct",
+						data:result})
 				else
 					jsonWrite(res, 'incorrect');
 			}
@@ -70,6 +72,7 @@ router.post('/authUser', (req, res) => {
 	})
 	conn.end();
 });
+
 // 增加面试接口
 router.post('/addInterview', (req, res) => {
 	var conn = mysql.createConnection(models.mysql);
@@ -87,7 +90,7 @@ router.post('/addInterview', (req, res) => {
 	var sql = $sql.interview.add;
 	var params = req.body;
 	console.log(params);
-	conn.query(sql, [params.subject, params.datetime], function (err, result) {
+	conn.query(sql, [params.subject, params.datetime,params.intervieweeId], function (err, result) {
 		if (err) {
 			console.log(err);
 		}
@@ -114,7 +117,7 @@ router.post('/addFeedback', (req, res) => {
 	var sql = $sql.feedback.add;
 	var params = req.body;
 	console.log(params);
-	conn.query(sql, [params.coding, params.communication, params.solution], function (err, result) {
+	conn.query(sql, [params.coding, params.communication, params.solution,params.intervieweeId], function (err, result) {
 		if (err) {
 			console.log(err);
 		}
