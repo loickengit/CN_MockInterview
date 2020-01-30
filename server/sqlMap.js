@@ -1,7 +1,8 @@
 var sqlMap = {
     // 用户
     user: {
-        add: 'insert into user(name, password) values (?, ?)'
+		add: 'insert into user(name, password, email) values (?, ?, ?)',
+		getpsw: 'select password from user where email= ? '
     },
 	// 面试
 	interview:{
