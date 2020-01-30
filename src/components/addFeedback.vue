@@ -41,10 +41,12 @@
 			  var coding = this.coding;
 			  var communication = this.communication;
 			  var solution = this.solution;
+			  let uid = localStorage.getItem("USERID");
 			  this.$http.post('/api/user/addFeedback', {
 			    coding: coding,
 			    communication: communication,
-				solution:solution
+				solution:solution,
+				intervieweeId:uid
 			  },{}).then((response) => {
 			    console.log(response);
 					this.visible = false;

@@ -77,9 +77,11 @@
 			async addInterview() {
 				var subject = this.ruleForm.subject;
 				var date = this.ruleForm.date1.toString()+" "+this.ruleForm.date2+":00";
+				let uid = localStorage.getItem("USERID");
 				this.$http.post('/api/user/addInterview', {
 					subject: subject,
-					datetime: date
+					datetime: date,
+					intervieweeId:uid
 				},{}).then((response) => {
 						console.log(response);
 						this.visible = false;

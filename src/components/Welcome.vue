@@ -130,12 +130,13 @@ export default {
               },
               {}
             )
-            .then(response => {
-              if (response.bodyText == '"correct"') {
-                localStorage.setItem("MIState", 1); // 指定登录状态
-                this.$router.push({ path: "/main" });
-              }
-            });
+						.then(response =>{
+							if(response.data.code == 'correct'){
+								localStorage.setItem("USERID",response.data.data[0].id);
+								localStorage.setItem("MIState", 1); // 指定登录状态
+								this.$router.push({ path: "/main" });
+							}
+						});
         } else {
           console.log("error submit!!");
           return false;

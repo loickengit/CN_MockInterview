@@ -42,8 +42,9 @@
 		},
 		methods: {
 		  async selectFeedback(){
+			let uid = localStorage.getItem("USERID");
 			this.$http.post('/api/user/selectFeedback', {
-			  intervieweeId: 1
+			  intervieweeId: uid
 			},{}).then((response) => {
 							let data = response.data[0];
 							this.tableData[0].evaValue= data.coding;
