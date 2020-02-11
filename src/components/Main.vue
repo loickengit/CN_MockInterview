@@ -1,41 +1,47 @@
 <template>
-  <div id="main">
+  <div id="main" >
+	  <div class="note" :style ="note"></div>
     <router-view></router-view>
-		<Header></Header>
-    <img src="../assets/logo.png">
-    <router-view/>
-		<el-tabs type="border-card" style="width: 500px; margin: 0 auto;">
-			<el-tab-pane label="addInterview"><addInterview></addInterview></el-tab-pane>
-			<el-tab-pane label="addFeedback"><addFeedback></addFeedback></el-tab-pane>
-			<el-tab-pane label="getFeedback"><getFeedback></getFeedback></el-tab-pane>
-		</el-tabs>
+    <Header></Header>
+    <addInterview style ="margin-top:3%"></addInterview>
   </div>
 </template>
 
 <script>
-	import Header from '../components/header.vue'
-	import addInterview from '../components/addInterview.vue'
-	import addFeedback from '../components/addFeedback.vue'
-	import getFeedback from '../components/getFeedback.vue'
-	
+import Header from "../components/header.vue";
+import addInterview from "../components/addInterview.vue";
+import addFeedback from "../components/addFeedback.vue";
+import getFeedback from "../components/getFeedback.vue";
+
 export default {
-	components:{
-		Header,
-		addInterview,
-		addFeedback,
-		getFeedback
-	},
-  name: 'Main'
-}
+  components: {
+    Header,
+    addInterview,
+    addFeedback,
+    getFeedback
+  },
+  name: "Main",
+  data() {
+    return {
+      note: {
+        backgroundImage: "url(" + require("../assets/bg.jpg") + ") ",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+      }
+    };
+  }
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 0px;
-}
+
+ #main{
+    background: url("../assets/bg.jpg");
+    background-size: 100% 100%;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+	opacity:0.7;
+  }
 </style>
