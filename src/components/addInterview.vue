@@ -1,6 +1,6 @@
 <template>
 	<div class="addInterview">
-		<el-button @click="visible = true">Enter an interview</el-button>
+		<el-button @click="visible = true">Make an appointment</el-button>
 		   <el-dialog :visible.sync="visible" title="NEW PRACTICE INTERVIEW">
 					<el-form  :model="ruleForm" :rules="rules" ref="ruleForm" :label-position="labelPosition" label-width="150px" >
 						<el-form-item label="Subject" prop="subject">
@@ -78,10 +78,12 @@
 				var subject = this.ruleForm.subject;
 				var date = this.ruleForm.date1.toString()+" "+this.ruleForm.date2+":00";
 				let uid = localStorage.getItem("USERID");
+				let uemail=localStorage.getItem("USEREMAIL");
 				this.$http.post('/api/user/addInterview', {
 					subject: subject,
 					datetime: date,
-					intervieweeId:uid
+					intervieweeId:uid,
+					intervieweeEmail:uemail
 				},{}).then((response) => {
 						console.log(response);
 						this.visible = false;
