@@ -7,18 +7,24 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "lint": "eslint --ext .js,.vue src",
+    "lint": "eslint --ext .js,.vue client",
     "build": "node build/build.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.4.1",
+    "cors": "^2.8.5",
     "element-ui": "^2.13.0",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
     "mysql": "^2.17.1",
+    "popper.js": "^1.16.1",
     "socket.io": "^2.3.0",
     "uws": "^10.148.1",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
+    "vue-socket.io": "^3.0.7",
     "vue2-ace-editor": "0.0.15"
   },
   "devDependencies": {

@@ -5,11 +5,29 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
-
+// import store from './store'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import VueSocketIO from 'vue-socket.io'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
+
+
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:3000',
+  vuex: {
+    // store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  },
+  // options: { path: "/my-app/" } //Optional options
+}))
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
