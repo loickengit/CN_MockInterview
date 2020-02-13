@@ -42,8 +42,12 @@ CREATE TABLE `interview` (
   `title2Id` int(11) DEFAULT NULL,
   `feedback1Id` int(11) DEFAULT NULL,
   `feedback2Id` int(11) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  `room` varchar(255) DEFAULT NULL,
+  `intervieweeEmail` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for question
