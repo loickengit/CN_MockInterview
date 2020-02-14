@@ -22,7 +22,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './client/main.js'
+    app: './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -49,7 +49,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/src')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -82,7 +82,7 @@ module.exports = {
     // source contains it (although only uses it if it's native).
     setImmediate: false,
     // prevent webpack from injecting mocks to Node native modules
-    // that does not make sense for the client
+    // that does not make sense for the src
     dgram: 'empty',
     fs: 'empty',
     net: 'empty',

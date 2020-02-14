@@ -20,7 +20,7 @@
 		</el-dialog>
 		<h1>Coding is:{{coding}}</h1>
 		<h1>Communication is:{{communication}}</h1>
-		<h1>Solution is:{{solution}}</h1>	
+		<h1>Solution is:{{solution}}</h1>
 	</div>
 </template>
 
@@ -52,10 +52,10 @@
 					this.visible = false;
 					alert('Rating success!!');
 			  })
-				
+
 			},
 		  cancle() {
-		    this.visible = false;	    
+		    this.visible = false;
 		  }
 		}
 	}

@@ -108,13 +108,10 @@ export default {
             password: password
           },
           {}
-        )
-        .then(response => {
+        ).then(response => {
           console.log(response);
           alert("注册成功！请以此账号进行登录！")
-        });
-        }
-        });
+        })}})
     },
     async login() {
       this.$refs.loginForm.validate(valid => {
@@ -131,10 +128,12 @@ export default {
               {}
             )
 						.then(response =>{
+              console.log(response.data)
 							if(response.data.code == 'correct'){
 								localStorage.setItem("USERID",response.data.data[0].id);
 								localStorage.setItem("USEREMAIL",email);
 								localStorage.setItem("MIState", 1); // 指定登录状态
+
 								this.$router.push({ path: "/main" });
 							}
 						});

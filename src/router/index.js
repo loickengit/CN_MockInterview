@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Welcome from '@/components/Welcome'
-import Main from '@/components/Main'
-import CodeBlock from '@/components/codeBlock'
+import Welcome from '@/pages/Welcome'
+import Main from '@/pages/Main'
+import CodeBlock from '@/pages/codeBlock'
+import Dashboard from '@/pages/dashboard'
 
 Vue.use(Router)
 
@@ -26,6 +27,14 @@ let router = new Router({
       path: '/coding',
       name: 'coding',
       component: CodeBlock,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
       meta: {
         requireAuth: true
       }

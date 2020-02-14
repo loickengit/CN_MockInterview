@@ -1,8 +1,10 @@
-var models = require('../db');
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../sqlMap');
+
+let models = require('../config/config').config
+
 // var nodemailer = require("nodemailer");
 // // 开启一个 SMTP 连接池
 // var transport = nodemailer.createTransport({
@@ -17,6 +19,7 @@ var $sql = require('../sqlMap');
 
 // 增加用户注册接口
 router.post('/addUser', (req, res) => {
+  console.log('add user')
 	// 连接数据库
 	var conn = mysql.createConnection(models.mysql);
 	conn.connect();
@@ -145,7 +148,7 @@ router.post('/addInterview', (req, res) => {
 // 										  subject: "Mock Interview Notice", // 标题
 // 										  text: "Hello, your interview request has been successfully matched. The time is "+emailObject.date+". Room number is 701, please be on time." // text 内容
 // 										}
-// 
+//
 // 										// 发送邮件
 // 										transport.sendMail(mailOptions, function(errorEmail, responseEmail) {
 // 										  if (errorEmail) {
@@ -157,7 +160,7 @@ router.post('/addInterview', (req, res) => {
 // 										});
 										console.log(resultUpdate);
 									}
-								})			
+								})
 							}
 						}
 					}
@@ -222,4 +225,8 @@ router.post('/selectFeedback', (req, res) => {
 	});
 	conn.end();
 });
+
+router.get('/content', (req, res) => {
+  res.json({'data': 'today is a good day'})
+})
 module.exports = router;

@@ -51,10 +51,10 @@
 							this.tableData[1].evaValue= data.communication;
 							this.tableData[2].evaValue=data.solution;
 			  console.log(response);
-			}) 
+			})
 		  },
 		  cancle() {
-		    this.visible = false;	    
+		    this.visible = false;
 		  }
 		}
 	}

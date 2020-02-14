@@ -7,14 +7,18 @@ const path = require('path')
 module.exports = {
   dev: {
 
+    // server address
+    server_host: 'localhost',
+    server_port: '3000',
+
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {        
+    proxyTable: {
       '/api': {
           target: 'http://localhost:3000/api/',
           changeOrigin: true,
-          pathRewrite: {                
+          pathRewrite: {
               '^/api': ''
           }
         }

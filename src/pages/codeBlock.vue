@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h1>Socket.io is Here</h1>
-    <div>
-      <p v-if="isConnected">We're connected to the server!</p>
+    <h1>Interview you partner</h1>
+    <div class="jumbotron text-center">
+      <editor id="editor" v-model="content" ref="editor" @init="editorInit" lang="html"
+              theme="chrome" width="700" height="600"></editor>
     </div>
-    <editor id="editor" v-model="content" ref="editor" @init="editorInit" lang="html"
-            theme="chrome" width="700" height="600"></editor>
   </div>
 </template>
 
 <script>
+import codingApi from '@/API/CodingAPI'
   export default {
     name: 'coding',
     components: {

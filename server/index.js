@@ -1,13 +1,13 @@
 // node 后端服务器
 
-const userApi = require('./api/userApi');
+const userApi = require('./service/userApi');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const iolib = require('./CodingInterview/io.js')
+const iolib = require('./connector/io.js')
 const cors = require('cors')
 
 app.use(bodyParser.json());
