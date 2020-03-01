@@ -32,14 +32,16 @@ function init(io){
     let exclude = [socket]
 
     socket.on('contentChange', function(delta){
-      console.log(delta)
+      // console.log(socket)
+      broadcast('updateContent', 'code', delta, exclude)
+      broadcast('messageChannel', 'code', delta, exclude)
     })
 
   })
 }
 
-function broadcast(event, chanel, data, exclude) {
-  let s = sockets[chanel];
+function broadcast(event, channel, data, exclude) {
+  let s = sockets[channel];
   s = _.filter(s, socket => !exclude.includes(socket))
   _.each(s, function (socket) {
     socket.emit(event, data);
