@@ -226,7 +226,4 @@ router.post('/selectFeedback', (req, res) => {
 	conn.end();
 });
 
-router.get('/content', (req, res) => {
-  res.json({'data': 'today is a good day'})
-})
 module.exports = router;
