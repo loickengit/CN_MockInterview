@@ -1,13 +1,22 @@
 <template>
   <div>
     <div class="row block">
-      <editor id="editor" v-model="content" ref="editor" @init="editorInit" width="1000" height="600"></editor>
+      <editor id="editor" ref="editor" @init="editorInit" width="1000" height="600"></editor>
+    </div>
+    <div>
+      <video id="localVideo" autoplay muted></video>
+      <video id="remoteVideo" autoplay></video>
     </div>
   </div>
 </template>
 
 <script>
-import codingApi from '@/API/CodingAPI'
+  navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+  window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+  window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
+  window.RTCSessionDescription =
+    window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+
   export default {
     name: 'coding',
     components: {
@@ -16,14 +25,24 @@ import codingApi from '@/API/CodingAPI'
 
     data() {
       return {
-        isConnected: false,
-        content: '',
-        question: {
-          title: '最短单词距离',
-          description: '给定一个单词列表和两个单词 word1 和 word2，返回列表中这两个单词之间的最短距离。\n',
-          example: '示例 words = [\"practice\", \"makes\", \"perfect\", \"coding\", \"makes\"]\n' +
-            '输入: word1 = \"coding\", word2 = \"practice\" \n输出: 3'
-        }
+        problem: {
+          isConnected: false,
+          title: '1. 两数之和\n',
+          description: '# 描述：给定一个整数数组nums和一个目标值target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。'+
+            '你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。\n',
+          example: '\n # 例子：给定 nums = [2, 7, 11, 15], target = 9',
+        },
+        roomHash: '',
+        configuration: {
+          iceServers: [{
+            urls: 'stun:stun.l.google.com:19302' // Google's public STUN server
+          }]
+        },
+        room: '',
+        drone: '',
+        pc: '',
+        isOfferer: '',
+        roomName: '',
       }
     },
     sockets: {
@@ -44,7 +63,6 @@ import codingApi from '@/API/CodingAPI'
         let editor = this.$refs.editor.editor
         let lines = delta.lines
         let range = {start: delta.start, end: delta.end}
-
         if (delta.action === 'insert') {
           let text = lines.join('\n')
           editor.session.replace(range, text)
@@ -55,14 +73,79 @@ import codingApi from '@/API/CodingAPI'
     },
 
     methods: {
-      sendText: function() {
-        let editor = this.$refs.editor.editor
-        let range = {start: {}, end: {}}
-        range.start.row = 0
-        range.start.column = 0
-        range.end.row = Number.MAX_VALUE
-        range.end.column = Number.MAX_VALUE
-        editor.session.replace(range, "x" + editor.session.getLine(range.start.row) + "x")
+      onSuccess: function(){},
+      onError: function(error){
+        console.error(error)
+      },
+      // Send signaling data via Scaledrone
+      sendMessage: function (message) {
+        this.drone.publish({
+          room: this.roomName,
+          message
+        });
+      },
+      startWebRTC: function (isOfferer) {
+        this.pc = new RTCPeerConnection(this.configuration);
+
+        this.pc.onicecandidate = event => {
+          if (event.candidate) {
+            this.sendMessage({'candidate': event.candidate});
+          }
+        };
+
+        // If user is offerer let the 'negotiationneeded' event create the offer
+        if (isOfferer) {
+          this.pc.onnegotiationneeded = () => {
+            this.pc.createOffer().then(this.localDescCreated).catch(this.onError);
+          }
+        }
+
+        // When a remote stream arrives display it in the #remoteVideo element
+        let remoteVideo = document.getElementById('remoteVideo');
+        this.pc.onaddstream = event => {
+          remoteVideo.srcObject = event.stream;
+        };
+
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        }).then(stream => {
+          // Display your local video in #localVideo element
+          let localVideo = document.getElementById('localVideo');
+          localVideo.srcObject = stream;
+          // Add your stream to be sent to the conneting peer
+          this.pc.addStream(stream);
+        }, this.onError);
+      },
+      startListentingToSignals: function() {
+        // Listen to signaling data from Scaledrone
+        this.room.on('data', (message, client) => {
+          // Message was sent by us
+          if (!client || client.id === this.drone.clientId) {
+            return;
+          }
+          if (message.sdp) {
+            // This is called after receiving an offer or answer from another peer
+            this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+              // When receiving an offer lets answer it
+              if (this.pc.remoteDescription.type === 'offer') {
+                this.pc.createAnswer().then(this.localDescCreated).catch(onError);
+              }
+            }, onError);
+          } else if (message.candidate) {
+            // Add the new ICE candidate to our connections remote description
+            this.pc.addIceCandidate(
+              new RTCIceCandidate(message.candidate), this.onSuccess, onError
+            );
+          }
+        });
+      },
+      localDescCreated: function(desc) {
+        this.pc.setLocalDescription(
+          desc,
+          () => this.sendMessage({'sdp': this.pc.localDescription}),
+          onError
+        );
       },
       editorInit: function () {
         require('brace/ext/language_tools') //language extension prerequsite...
@@ -83,10 +166,10 @@ import codingApi from '@/API/CodingAPI'
         })
         // editor.session.setMode("ace/mode/javascript");
         // editor.setTheme("ace/theme/tomorrow");
-        let text = this.question.title + '\n' + this.question.description
-          + '\n' + this.question.example
-        editor.setValue(text)
         // editor.setHighlightActiveLine(true)
+
+        let problem_text = this.problem.title + this.problem.description + this.problem.example;
+        editor.setValue(problem_text)
         let outThis = this
         editor.on('change', function(delta) {
           outThis.$socket.emit('contentChange', delta)
@@ -94,6 +177,38 @@ import codingApi from '@/API/CodingAPI'
       },
     },
     mounted () {
+      // Generate random room name if needed
+      if (!location.hash) {
+        location.hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+      }
+      this.roomHash = location.hash.substring(1);
+
+      // Room name needs to be prefixed with 'observable-'
+      this.roomName = 'observable-' + this.roomHash;
+      this.drone = new ScaleDrone('hjEUkEW3exRjjOjk');
+      let drone = this.drone
+      drone.on('open', error => {
+        if (error) {
+          return onError(error);
+        }
+        this.room = drone.subscribe(this.roomName);
+        this.room.on('open', error => {
+          if (error) {
+            onError(error);
+          }
+        });
+        // We're connected to the room and received an array of 'members'
+        // connected to the room (including us). Signaling server is ready.
+        this.room.on('members', members => {
+          if (members.length >= 3) {
+            return alert('The room is full');
+          }
+          // If we are the second user to connect to the room we will be creating the offer
+          this.isOfferer = members.length === 2;
+          this.startWebRTC(this.isOfferer);
+          this.startListentingToSignals();
+        });
+      });
     }
   }
 
