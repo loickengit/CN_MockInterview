@@ -130,7 +130,8 @@ export default {
 						.then(response =>{
               console.log(response.data)
 							if(response.data.code == 'correct'){
-								localStorage.setItem("USERID",response.data.data[0].id);
+                localStorage.setItem("USERID",response.data.data[0].id);
+                localStorage.setItem("USERNAME",response.data.data[0].name);
 								localStorage.setItem("USEREMAIL",email);
 								localStorage.setItem("MIState", 1); // 指定登录状态
 

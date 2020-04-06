@@ -27,7 +27,7 @@ CREATE TABLE `feedback` (
   `communication` int(11) DEFAULT NULL,
   `interviewerId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) E
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for interview

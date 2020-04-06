@@ -2,7 +2,8 @@ var sqlMap = {
     // 用户
     user: {
 		add: 'insert into user(name, password, email) values (?, ?, ?)',
-		getpsw: 'select id,password from user where email= ? '
+		getpsw: 'select id,password,name from user where email= ? ',
+		update: 'UPDATE user SET name = ?, password = ? WHERE (id = ?);'
     },
 	// 面试
 	interview:{
