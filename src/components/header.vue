@@ -42,6 +42,9 @@ export default {
       if(key == 0 || key == 1){
          this.$router.push({path: "/main"})
       }
+      if (key == 2) {
+        this.$router.push({path: "/personal"})
+      }
       if (key == 4) {
         this.$router.push({path: "/dashboard"})
       }

@@ -47,6 +47,38 @@ router.post('/addUser', (req, res) => {
 	})
 	conn.end();
 });
+
+// 增加用户更新接口
+router.post('/updateUser', (req, res) => {
+	console.log('add user')
+	  // 连接数据库
+	  var conn = mysql.createConnection(models.mysql);
+	  conn.connect();
+	  var jsonWrite = function (res, ret) {
+		  if (typeof ret === 'undefined') {
+			  res.json({
+				  code: '1',
+				  msg: '操作失败'
+			  });
+		  } else {
+			  res.json(ret);
+		  }
+	  };
+	  var sql = $sql.user.update;
+	  var params = req.body;
+	  //console.log(params.email);
+	  conn.query(sql, [ params.name, params.password, params.id], function (err, result) {
+		  if (err) {
+			  console.log(err);
+		  }
+		  if (result) {
+			  jsonWrite(res, result);
+		  }
+	  })
+	  conn.end();
+  });
+
+
 // 增加用户登录验证接口
 router.post('/authUser', (req, res) => {
 	// 连接数据库
