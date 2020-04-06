@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var $sql = require('../sqlMap');
 
 let models = require('../config/config').config
+let roomManager = require('./RoomManager')
 
 // var nodemailer = require("nodemailer");
 // // 开启一个 SMTP 连接池
@@ -225,5 +226,24 @@ router.post('/selectFeedback', (req, res) => {
 	});
 	conn.end();
 });
+
+router.get('/getRoomHash', (req, res) =>{
+  let roomInfo = roomManager.getRoomHash()
+  let data = {}
+  if (roomInfo){
+    data = {
+      userId: roomInfo[0],
+      roomHash: roomInfo[1]
+    }
+  }
+  res.send(JSON.stringify(data))
+
+})
+
+router.post('/createRoom', (req, res) => {
+  let params = req.body
+  roomManager.createRoomHash(params.userId, params.roomHash)
+  res.json({})
+})
 
 module.exports = router;

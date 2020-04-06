@@ -17,6 +17,8 @@
   window.RTCSessionDescription =
     window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
 
+  import api from '../API/BasicAxios'
+
   export default {
     name: 'coding',
     components: {
@@ -177,38 +179,46 @@
       },
     },
     mounted () {
-      // Generate random room name if needed
-      if (!location.hash) {
-        location.hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-      }
-      this.roomHash = location.hash.substring(1);
-
-      // Room name needs to be prefixed with 'observable-'
-      this.roomName = 'observable-' + this.roomHash;
-      this.drone = new ScaleDrone('hjEUkEW3exRjjOjk');
-      let drone = this.drone
-      drone.on('open', error => {
-        if (error) {
-          return onError(error);
+      api.enterRoom(localStorage.getItem("USERID")).then(res => {
+        // Generate random room name if needed
+        let data = res.data
+        if (!data.roomHash && !location.hash) {
+          location.hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+          this.roomHash = location.hash.substring(1);
+          return api.createRoom(localStorage.getItem("USERID"), this.roomHash)
+        }else{
+          this.roomHash = data.roomHash
+          location.hash = '#' + data.roomHash
+          return
         }
-        this.room = drone.subscribe(this.roomName);
-        this.room.on('open', error => {
+      }).then(res => {
+        // Room name needs to be prefixed with 'observable-'
+        this.roomName = 'observable-' + this.roomHash;
+        this.drone = new ScaleDrone('hjEUkEW3exRjjOjk');
+        let drone = this.drone
+        drone.on('open', error => {
           if (error) {
-            onError(error);
+            return onError(error);
           }
+          this.room = drone.subscribe(this.roomName);
+          this.room.on('open', error => {
+            if (error) {
+              onError(error);
+            }
+          });
+          // We're connected to the room and received an array of 'members'
+          // connected to the room (including us). Signaling server is ready.
+          this.room.on('members', members => {
+            if (members.length >= 3) {
+              return alert('The room is full');
+            }
+            // If we are the second user to connect to the room we will be creating the offer
+            this.isOfferer = members.length === 2;
+            this.startWebRTC(this.isOfferer);
+            this.startListentingToSignals();
+          });
         });
-        // We're connected to the room and received an array of 'members'
-        // connected to the room (including us). Signaling server is ready.
-        this.room.on('members', members => {
-          if (members.length >= 3) {
-            return alert('The room is full');
-          }
-          // If we are the second user to connect to the room we will be creating the offer
-          this.isOfferer = members.length === 2;
-          this.startWebRTC(this.isOfferer);
-          this.startListentingToSignals();
-        });
-      });
+      })
     }
   }
 

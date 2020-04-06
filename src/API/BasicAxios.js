@@ -33,23 +33,14 @@ export function fetch (url, params) {
 
 export default {
 
-  login (username, password) {
-    let url = '/user/login?username=' + username + '&password=' + password
+  enterRoom (userId){
+    let url = '/api/user/getRoomHash?userId=' + userId
     return axios.get(url)
   },
 
-  getLatestWork (username, notateType) {
-    let url = '/img/getLatestWork?username=' + username + '&notateType=' + notateType
-    return axios.get(url)
-  },
-
-  submmitNotation (sample) {
-    let url = '/notation/submitNotation'
-    return fetch(url, sample)
-  },
-
-  getSample (username, sequenceNum, notateType) {
-    let url = '/notation/getSample?username=' + username + '&sequenceNum=' + sequenceNum + '&notateType=' + notateType
-    return axios.get(url)
+  createRoom(userId, roomHash){
+    let url = '/api/user/createRoom'
+    let params = {userId: userId, roomHash: roomHash}
+    return fetch(url, params)
   }
 }
