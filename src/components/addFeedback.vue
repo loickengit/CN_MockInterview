@@ -30,10 +30,10 @@
 		data() {
 			return {
 				labelPosition:"left",
-				coding:null,
-				communication:null,
-				solution:null,
-				visible: false
+        coding:null,
+        communication:null,
+        solution:null,
+        visible: false
 			};
 		},
 		methods: {

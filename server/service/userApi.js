@@ -191,7 +191,7 @@ router.post('/addFeedback', (req, res) => {
 	var sql = $sql.feedback.add;
 	var params = req.body;
 	console.log(params);
-	conn.query(sql, [params.coding, params.communication, params.solution,params.intervieweeId], function (err, result) {
+	conn.query(sql, [params.coding, params.communication, params.solution,params.intervieweeId,params.interviewerId], function (err, result) {
 		if (err) {
 			console.log(err);
 		}
@@ -217,7 +217,7 @@ router.post('/selectFeedback', (req, res) => {
 	};
 	var sql = $sql.feedback.select;
 	var params = req.body;
-	conn.query(sql, [params.intervieweeId], (err, result) => {
+	conn.query(sql, [params.intervieweeId,params.interviewerId], (err, result) => {
 		if (err) {
 			res.json(err);
 		} else {
@@ -226,7 +226,31 @@ router.post('/selectFeedback', (req, res) => {
 	});
 	conn.end();
 });
-
+// 查询面试表
+router.post('/selectInterview', (req, res) => {
+  var conn = mysql.createConnection(models.mysql);
+  conn.connect();
+  var jsonWrite = function (res, ret) {
+    if (typeof ret === 'undefined') {
+      res.json({
+        code: '1',
+        msg: '操作失败'
+      });
+    } else {
+      res.json(ret);
+    }
+  };
+  var sql = $sql.interview.getInfo;
+  var params = req.body;
+  conn.query(sql, [params.intervieweeId], (err, result) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(result)
+    }
+  });
+  conn.end();
+});
 router.get('/getRoomHash', (req, res) =>{
   let roomInfo = roomManager.getRoomHash()
   let data = {}

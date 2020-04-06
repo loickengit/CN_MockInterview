@@ -25,8 +25,9 @@ CREATE TABLE `feedback` (
   `coding` int(11) DEFAULT NULL,
   `solution` int(11) DEFAULT NULL,
   `communication` int(11) DEFAULT NULL,
+  `interviewerId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) E
 
 -- ----------------------------
 -- Table structure for interview
@@ -69,7 +70,7 @@ CREATE TABLE `question` (
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `postid` int(11) , 
+  `postid` int(11) ,
   `content` varchar(255) DEFAULT NULL,
   `publisher` varchar(255) DEFAULT NULL,
   `createTime` datetime DEFAULT NULL,

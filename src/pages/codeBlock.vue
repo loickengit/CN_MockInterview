@@ -1,16 +1,29 @@
 <template>
-  <div>
-    <div class="row block">
-      <editor id="editor" ref="editor" @init="editorInit" width="1000" height="600"></editor>
-    </div>
-    <div>
-      <video id="localVideo" autoplay muted></video>
-      <video id="remoteVideo" autoplay></video>
+  <div class="codeBlock">
+    <Header></Header>
+    <div class="parent">
+      <div class="left">
+        <div class="top"><h3>答题板</h3></div>
+        <div class="bottom"><editor id="editor" ref="editor" @init="editorInit" width="1200" height="600"></editor></div>
+      </div>
+      <div class="right">
+        <div class="top"><h3>视频交流</h3></div>
+        <div id="video1">
+<!--          video1-->
+          <video id="localVideo" autoplay muted style="width: 300px"></video>
+        </div>
+        <div id="video2">
+<!--          video2-->
+          <video id="remoteVideo" autoplay style="width: 300px"></video>
+        </div>
+      </div>
     </div>
   </div>
+
 </template>
 
 <script>
+
   navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
   window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
   window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
@@ -18,10 +31,11 @@
     window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
 
   import api from '../API/BasicAxios'
-
+  import Header from "../components/header.vue";
   export default {
     name: 'coding',
     components: {
+      Header,
       editor: require('vue2-ace-editor'),
     },
 
@@ -225,22 +239,36 @@
 </script>
 
 <style scoped>
+  .parent{
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+  .left{
+    margin-right: 20px;
+    background: #0068B7;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .top{
+    background: aquamarine;
+  }
+  .bottom{
+    flex:1
+  }
+  .right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
   #editor {
-    position: relative;
-    top: 10%;
-    right: 10%;
-    margin-left: 10%;
-    bottom: 10%;
     font-size: 16px;
   }
 
   #question{
     text-align: left;
-    /*margin-left: 10%;*/
-  }
-
-  .block{
-    margin-left: 2%;
   }
 
   .code {

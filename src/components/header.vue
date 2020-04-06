@@ -8,18 +8,18 @@
     text-color="#545c64"
     active-text-color="#ffd04b"
   >
-    <el-menu-item index="0"><img src="../assets/logo.png" style="height:100%" /></el-menu-item>
+    <el-menu-item index="0"><img src="../assets/interview.png" style="height:100%" /></el-menu-item>
     <el-menu-item index="1">主页</el-menu-item>
     <!--<el-submenu index="2">
       <template slot="title">Favorite</template>
       <el-menu-item index="2-1">Font-end</el-menu-item>
       <el-menu-item index="2-2">Back-end</el-menu-item>
     </el-submenu>-->
-    <el-menu-item index="2">个人空间</el-menu-item>
-    <el-menu-item index="3">联系我们</el-menu-item>
     <el-menu-item index="4">面试记录</el-menu-item>
-    <el-menu-item index="5">经验交流</el-menu-item>
     <el-menu-item index="6">贡献题目</el-menu-item>
+    <el-menu-item index="2">个人空间</el-menu-item>
+    <el-menu-item index="5">经验交流</el-menu-item>
+    <el-menu-item index="3">联系我们</el-menu-item>
     <el-menu-item index="7" style="float:right;" @click="logout">退出登录</el-menu-item>
   </el-menu>
 </template>
@@ -48,7 +48,7 @@ export default {
       if (key == 6) {
         this.$router.push({path: "/upload"})
       }
-      
+
     }
   }
 };
