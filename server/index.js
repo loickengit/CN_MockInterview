@@ -1,6 +1,7 @@
 // node 后端服务器
 
 const userApi = require('./service/userApi');
+const questionApi = require('./service/questionApi');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // 后端api路由
 app.use('/api/user', userApi);
+app.use('/api/question', questionApi);
 
 // Middleware for serving '/dist' directory
 const staticFileMiddleware = express.static('dist');

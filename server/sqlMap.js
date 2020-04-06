@@ -22,6 +22,9 @@ var sqlMap = {
 	feedback:{
 		add:'insert into feedback(coding,communication,solution,intervieweeId) values (?,?,?,?)',
 		select: 'select coding,communication,solution from feedback where intervieweeId =?'
+	},
+	question:{
+		add:'insert into question(title, description, hints, answer, subject) values (?, ?, ?, ?, ?)'
 	}
 }
     

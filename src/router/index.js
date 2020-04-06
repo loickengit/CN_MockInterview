@@ -4,6 +4,7 @@ import Welcome from '@/pages/Welcome'
 import Main from '@/pages/Main'
 import CodeBlock from '@/pages/codeBlock'
 import Dashboard from '@/pages/dashboard'
+import UploadQuestion from '@/pages/uploadQuestion'
 
 Vue.use(Router)
 
@@ -27,6 +28,14 @@ let router = new Router({
       path: '/coding',
       name: 'coding',
       component: CodeBlock,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/upload',
+      name: 'uploadQuestion',
+      component: UploadQuestion,
       meta: {
         requireAuth: true
       }

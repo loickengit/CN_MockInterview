@@ -18,7 +18,9 @@
     <el-menu-item index="2">个人空间</el-menu-item>
     <el-menu-item index="3">联系我们</el-menu-item>
     <el-menu-item index="4">面试记录</el-menu-item>
-    <el-menu-item index="5" style="float:right;" @click="logout">退出登录</el-menu-item>
+    <el-menu-item index="5">经验交流</el-menu-item>
+    <el-menu-item index="6">贡献题目</el-menu-item>
+    <el-menu-item index="7" style="float:right;" @click="logout">退出登录</el-menu-item>
   </el-menu>
 </template>
 
@@ -37,9 +39,16 @@ export default {
       },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+      if(key == 0 || key == 1){
+         this.$router.push({path: "/main"})
+      }
       if (key == 4) {
         this.$router.push({path: "/dashboard"})
       }
+      if (key == 6) {
+        this.$router.push({path: "/upload"})
+      }
+      
     }
   }
 };
