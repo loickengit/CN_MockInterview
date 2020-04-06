@@ -7,6 +7,7 @@ import Dashboard from '@/pages/dashboard'
 import UploadQuestion from '@/pages/uploadQuestion'
 import Personal from '@/pages/personalSpace'
 import About from '@/pages/about'
+import Forum from '@/pages/forum'
 Vue.use(Router)
 
 let router = new Router({
@@ -37,6 +38,14 @@ let router = new Router({
       path: '/upload',
       name: 'uploadQuestion',
       component: UploadQuestion,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/forum',
+      name: 'forum',
+      component: Forum,
       meta: {
         requireAuth: true
       }

@@ -37,11 +37,10 @@ export default {
 <style>
 
  #main{
-    background: url("../assets/bg.jpg");
+    background: url("../assets/h1-bg.jpg");
     background-size: 100% 100%;
     height: 100%;
     position: fixed;
     width: 100%;
-	opacity:0.7;
   }
 </style>

@@ -6,7 +6,7 @@
               :model="updateForm"
               :rules="updateRules"
               ref="updateForm"
-              label-width="60px"
+              label-width="80px"
               class="demo-ruleForm"
               style="width:60%;margin-left:20%;margin-top:10%"
             >

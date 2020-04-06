@@ -199,7 +199,7 @@
     width: 800px;
   }
   #dashboard{
-    background: url("../assets/bg.jpg");
+    background: url("../assets/h1-bg.jpg");
     background-size: 100% 100%;
     height: 100%;
     position: fixed;

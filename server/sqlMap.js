@@ -27,6 +27,10 @@ var sqlMap = {
 	},
 	question:{
 		add:'insert into question(title, description, hints, answer, subject) values (?, ?, ?, ?, ?)'
+	},
+	post:{
+		get:'select post.title,user.name,content from post inner join user on post.publisher=user.id',
+		add:'insert into post(title, content, publisher,createTime, subject) values (?, ?, ?, ?, ?)'
 	}
 }
 

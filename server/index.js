@@ -2,6 +2,7 @@
 
 const userApi = require('./service/userApi');
 const questionApi = require('./service/questionApi');
+const postApi = require('./service/postApi');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // 后端api路由
 app.use('/api/user', userApi);
 app.use('/api/question', questionApi);
+app.use('/api/post', postApi);
 
 // Middleware for serving '/dist' directory
 const staticFileMiddleware = express.static('dist');
