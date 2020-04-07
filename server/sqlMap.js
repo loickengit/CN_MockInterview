@@ -26,7 +26,8 @@ var sqlMap = {
 		select: 'select coding,communication,solution from feedback where intervieweeId =? and interviewerId =?'
 	},
 	question:{
-		add:'insert into question(title, description, hints, answer, subject) values (?, ?, ?, ?, ?)'
+		add:'insert into question(title, description, hints, answer, subject) values (?, ?, ?, ?, ?)',
+		question:'SELECT * FROM mock.question t1 JOIN (SELECT RAND() * (SELECT MAX(id) FROM mock.question) AS nid) t2 ON t1.id > t2.nid LIMIT 1'
 	},
 	post:{
 		get:'select post.title,user.name,content from post inner join user on post.publisher=user.id',

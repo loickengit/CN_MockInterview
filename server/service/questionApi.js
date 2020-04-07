@@ -36,5 +36,34 @@ router.post('/addQuestion', (req, res) => {
 	})
 	conn.end();
 });
+// 增加获取问题接口
+router.post('/getQuestion', (req, res) => {
+	console.log('get question')
+      // 连接数据库
+      var conn = mysql.createConnection(models.mysql);
+      conn.connect();
+      var jsonWrite = function (res, ret) {
+          if (typeof ret === 'undefined') {
+              res.json({
+                  code: '1',
+                  msg: '操作失败'
+              });
+          } else {
+              res.json(ret);
+          }
+      };
+      var sql = $sql.question.get;
+      var params = req.body;
+      //console.log(params.email);
+      conn.query(sql, function (err, result) {
+          if (err) {
+              console.log(err);
+          }
+          if (result) {
+              jsonWrite(res, result);
+          }
+      })
+      conn.end();
+  });
 
 module.exports = router;
