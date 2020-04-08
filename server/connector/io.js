@@ -15,6 +15,11 @@ let _ = require('lodash')
 // let sockets = {}
 let sockets = {}
 
+/**
+ * init socket io server,
+ * accept connections, and broadcast messages
+ * @param io
+ */
 function init(io){
   io.on('connection', function(socket){
     console.log("user connected");
@@ -40,6 +45,13 @@ function init(io){
   })
 }
 
+/**
+ * boardcast text change message to all clients related
+ * @param event
+ * @param channel
+ * @param data
+ * @param exclude
+ */
 function broadcast(event, channel, data, exclude) {
   let s = sockets[channel];
   s = _.filter(s, socket => !exclude.includes(socket))

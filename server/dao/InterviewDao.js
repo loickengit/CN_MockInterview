@@ -17,6 +17,11 @@ conn.connect()
   // `room` varchar(255) DEFAULT NULL,
   // `intervieweeEmail` varchar(255) DEFAULT NULL,
 
+/**
+ * insert a interview with values
+ * @param params
+ * @returns {*}
+ */
 function addInterview (params) {
   let sql = 'insert into interview(date, intervieweeName, interviewerName, title1Id, title2Id, state, room) ' +
     'values (?, ?, ?, ?, ?, ?, ?)'
@@ -34,6 +39,27 @@ function addInterview (params) {
   })
 }
 
+/**
+ * delete interview by room and intervieweeName and interviewerName
+ * @param room
+ * @param intervieweeName
+ * @param interviewerName
+ * @returns {*}
+ */
+function deleteInterviewByRoom(room, intervieweeName, interviewerName){
+  let sql = 'delete from interview where room = ? and intervieweeName = ? and interviewerName = ?'
+  return new Promise(function (resolve, reject) {
+    conn.query(sql, [room, intervieweeName, interviewerName], function (err, res) {
+      console.log(res)
+      if (err) {
+        reject(err)
+      }else{
+        resolve(res)
+      }
+    })
+  })
+}
+
 
 exports.addInterview = addInterview
 
@@ -41,11 +67,34 @@ exports.addInterview = addInterview
 /**
  * test code for functions
  */
-// let params = {
-//   intervieweeName: 'loick',
-//   interviewerName: 'dddo',
-//   title1Id: '1',
-//   title2Id: '2',
-//   room: 'hei'
-// }
-// addInterview(params).then(console.log('success'))
+
+let isdev = false
+
+if (isdev) {
+
+// set params
+  let params = {
+    intervieweeName: 'loick',
+    interviewerName: 'dddo',
+    title1Id: '1',
+    title2Id: '2',
+    room: 'hei'
+  }
+
+  addInterview(params).then(
+    console.log('success')
+  )
+  params.room = 2
+  console.assert()
+
+  addInterview(params).then(
+    console.log('success')
+  )
+
+  deleteInterviewByRoom(1, 'loick', 'ddda')
+    .then(res => {
+      if (res) {
+        console.log(res)
+      }
+    })
+}
