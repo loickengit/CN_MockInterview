@@ -134,7 +134,9 @@ export default {
                 localStorage.setItem("USERNAME",response.data.data[0].name);
 								localStorage.setItem("USEREMAIL",email);
 								localStorage.setItem("MIState", 1); // 指定登录状态
-
+                localStorage.setItem("ISWAITING", 0);
+                localStorage.setItem("PARTNER", -1);
+                localStorage.setItem("HASH", "");
 								this.$router.push({ path: "/main" });
 							}
 						});

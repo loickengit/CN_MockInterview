@@ -169,8 +169,14 @@ router.post('/selectInterviewByUserName', (req, res) => {
     res.send(JSON.stringify(res))
   })
 });
-
-router.get('/getRoomHash', (req, res) =>{
+router.get('/checkPair', (req, res) =>{
+	let check=roomManager.checkPair(req.body.hash)
+	let data={
+		ret:check
+	}
+	res.send(JSON.stringify(data))
+})
+router.post('/getRoomHash', (req, res) =>{
   let roomInfo = roomManager.getRoomHash()
   let data = {}
   if (roomInfo){
@@ -180,7 +186,7 @@ router.get('/getRoomHash', (req, res) =>{
     }
 
     // 匹配成功，写入面试记录
-    let userId1 = req.params.userId,
+    let userId1 = req.body.userId,
         userId2 = roomInfo[0]
 
     // todo
@@ -192,11 +198,19 @@ router.get('/getRoomHash', (req, res) =>{
       intervieweeName: userId1,
       interviewerName: userId2,
       title1Id: pid1,
-      title2Id: pid2
+	  title2Id: pid2,
+	  datetime: req.body.datetime
     }
     interviewDao.addInterview(params).then(res => {
       res.send(JSON.stringify(data))
     })
+  }else{
+	let hash=Math.floor(Math.random() * 0xFFFFFF).toString(16);
+	roomManager.createRoomHash(req.body.userId, hash)
+	data = {
+		userId: -1,
+		roomHash: hash
+	  }
   }
   res.send(JSON.stringify(data))
 })

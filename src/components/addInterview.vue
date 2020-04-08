@@ -110,11 +110,13 @@ export default {
       var date =
         this.ruleForm.date1.toString() + " " + this.ruleForm.date2 + ":00";
       let username = localStorage.getItem("USERNAME");
+       let uid = localStorage.getItem("USERID");
       let uemail = localStorage.getItem("USEREMAIL");
       this.$http
         .post(
-          "/api/user/addInterview",
+          "/api/user/getRoomHash",
           {
+            userId: uid,
             subject: subject,
             datetime: date,
             intervieweeName: username,
@@ -125,7 +127,11 @@ export default {
         .then(response => {
           console.log(response);
           this.visible = false;
-          alert("成功预约，预约结果将通过邮件发送");
+          alert("成功预约！开始匹配！");
+          localStorage.setItem("ISWAITING", 1);
+          localStorage.setItem("PARTNER", response.data.userId);
+          localStorage.setItem("HASH", response.data.roomHash);
+          this.$router.push({ path: "/dashboard"});
         });
     },
     resetForm() {
