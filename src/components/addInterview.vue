@@ -109,7 +109,7 @@ export default {
       var subject = this.ruleForm.subject;
       var date =
         this.ruleForm.date1.toString() + " " + this.ruleForm.date2 + ":00";
-      let uid = localStorage.getItem("USERID");
+      let username = localStorage.getItem("USERNAME");
       let uemail = localStorage.getItem("USEREMAIL");
       this.$http
         .post(
@@ -117,7 +117,7 @@ export default {
           {
             subject: subject,
             datetime: date,
-            intervieweeId: uid,
+            intervieweeName: username,
             intervieweeEmail: uemail
           },
           {}
