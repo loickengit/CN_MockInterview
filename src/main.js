@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:80',
+  connection: 'http://localhost:3000',
   vuex: {
     // store,
     actionPrefix: 'SOCKET_',
