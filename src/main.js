@@ -12,6 +12,8 @@ import VueSocketIO from 'vue-socket.io'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 
+
+
 Vue.use(new VueSocketIO({
   debug: true,
   connection: 'http://localhost:3000',
