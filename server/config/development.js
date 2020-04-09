@@ -3,7 +3,7 @@
 let mysql = {
   host: 'localhost',
   user: 'root',
-  password: '123456',
+  password: 'MyNewPass12.',
   database: 'mock',
   port: '3306'
 }

@@ -9,14 +9,14 @@ module.exports = {
 
     // server address
     server_host: 'localhost',
-    server_port: '80',
+    server_port: '3000',
 
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-          target: 'http://localhost:80/api/',
+          target: 'http://localhost:3000/api/',
           changeOrigin: true,
           pathRewrite: {
               '^/api': ''

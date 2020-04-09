@@ -38,7 +38,7 @@ app.use(cors())
 iolib.init(io)
 
 // 监听端口
-server.listen(80);
-console.log('success listen at port:80......');
+server.listen(3000);
+console.log('success listen at port:3000......');
 
 
